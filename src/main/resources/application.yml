@@ -1,3 +1,8 @@
+app:
+  integration:
+    coin-cap:
+      base-url: https://api.coincap.io/v2
+
 server:
   port: 8083
 

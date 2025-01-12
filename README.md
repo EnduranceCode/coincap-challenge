@@ -37,7 +37,7 @@ application and uses a [MySQL](https://www.mysql.com/) database.
 
 ### Entity Relationship Diagram
 
-The following diagram represents the entity model of the **CoinCap Code Challenge** application.
+The following image shows the Entity Relationship Diagram for the **CoinCap Code Challenge** application.
 
 ![Database ER Diagram](src/main/resources/db/entity-model.png)
 
