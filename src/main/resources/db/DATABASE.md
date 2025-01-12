@@ -26,3 +26,10 @@ must respect the following naming convention (which is compatible with the
 > ***nnn*** : Order number for version number at the time of the script creation
 >
 > ***free_description*** : A short free description of the scripts actions with words separated with dashes 
+
+## Migration scripts
+
+1. [V000.000.001.001__create-tables.sql](./migration/ddl/V000.000.001.001__create-tables.sql) : Creates the tables
+   for the CoinCap Challenge application;
+2. [V000.000.001.002__create-indexes.sql](./migration/dml/V000.000.001.002__insert-data.sql) : Insert data
+   into the CoinCap Challenge application tables.

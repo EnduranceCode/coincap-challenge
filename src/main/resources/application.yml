@@ -20,7 +20,6 @@ spring:
     locations: classpath:db/migration/ddl, classpath:db/migration/dml
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
     open-in-view: false

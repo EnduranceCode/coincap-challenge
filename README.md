@@ -11,7 +11,8 @@
 2. [Prerequisites](#prerequisites)
 3. [Development](#development)
    1. [Technologies](#technologies)
-   2. [Installation](#installation)
+   2. [Entity Relationship Diagram](#entity-relationship-diagram)
+   3. [Installation](#installation)
 4. [Usage](#usage)
 5. [License](#license)
 
@@ -33,6 +34,12 @@ and data sourced from [CoinCap API](https://docs.coincap.io/).
 
 **CoinCap Code Challenge** is a [Spring Boot](https://spring.io/projects/spring-boot)
 application and uses a [MySQL](https://www.mysql.com/) database.
+
+### Entity Relationship Diagram
+
+The following diagram represents the entity model of the **CoinCap Code Challenge** application.
+
+![Database ER Diagram](src/main/resources/db/entity-model.png)
 
 ### Installation
 
