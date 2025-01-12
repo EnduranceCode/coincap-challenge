@@ -34,9 +34,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 @Service
 public class CoinCapAssetServiceImpl implements CoinCapAssetService {
+    private static final Logger LOGGER = Logger.getLogger(CoinCapAssetServiceImpl.class.getName());
+
     private final WebClient webClient;
 
     public CoinCapAssetServiceImpl(WebClient coinCapWebClient) {
@@ -49,6 +52,7 @@ public class CoinCapAssetServiceImpl implements CoinCapAssetService {
         final AtomicInteger offset = new AtomicInteger(0);
         Set<CoinCapAssetDTO> allAssets = new HashSet<>();
 
+        LOGGER.info("START : Fetching all assets from CoinCap API");
         while (true) {
             CoinCapAssetResponse response = webClient.get()
                     .uri(uriBuilder -> uriBuilder.path("/assets")
@@ -60,11 +64,13 @@ public class CoinCapAssetServiceImpl implements CoinCapAssetService {
                     .block();
 
             if (response == null || response.getData().isEmpty()) {
+                LOGGER.info("END : Fetching all assets from CoinCap API");
                 return allAssets;
             } else {
                 allAssets.addAll(response.getData());
 
                 if (response.getData().size() < limit) {
+                    LOGGER.info("END : Fetching all assets from CoinCap API");
                     return allAssets;
                 }
 

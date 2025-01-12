@@ -27,10 +27,14 @@ package com.endurancecode.ccchallenge;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.logging.LogManager;
+
 @SpringBootApplication
 public class CoinCapCodeChallengeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CoinCapCodeChallengeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        LogManager.getLogManager().reset();
+
+        SpringApplication.run(CoinCapCodeChallengeApplication.class, args);
+    }
 }
