@@ -22,21 +22,17 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge;
+package com.endurancecode.ccchallenge.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.util.logging.LogManager;
-
-@SpringBootApplication
-@EnableScheduling
-public class CoinCapCodeChallengeApplication {
-
-    public static void main(String[] args) {
-        LogManager.getLogManager().reset();
-
-        SpringApplication.run(CoinCapCodeChallengeApplication.class, args);
-    }
+/**
+ * Updates the prices of all tokens.
+ * <p>
+ * This method fetches the latest prices of all tokens from the CoinCap API and updates the prices in the database.
+ * It uses a scheduled task to run at a fixed interval defined in the application properties.
+ * <p>
+ * The method retrieves all tokens from the repository and fetches all assets from the CoinCap API.
+ * It then updates the prices of the tokens in batches using a fixed thread pool executor service.
+ */
+public interface TokenService {
+    public void updateTokenPrices();
 }

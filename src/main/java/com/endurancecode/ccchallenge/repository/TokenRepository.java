@@ -22,21 +22,12 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge;
+package com.endurancecode.ccchallenge.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import com.endurancecode.ccchallenge.model.entity.Token;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.logging.LogManager;
-
-@SpringBootApplication
-@EnableScheduling
-public class CoinCapCodeChallengeApplication {
-
-    public static void main(String[] args) {
-        LogManager.getLogManager().reset();
-
-        SpringApplication.run(CoinCapCodeChallengeApplication.class, args);
-    }
+@Repository
+public interface TokenRepository extends JpaRepository<Token, Long> {
 }

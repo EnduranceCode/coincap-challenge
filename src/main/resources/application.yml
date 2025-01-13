@@ -2,6 +2,9 @@ app:
   integration:
     coin-cap:
       base-url: https://api.coincap.io/v2
+  scheduler:
+    token:
+      update-interval: 1800000
 
 logging:
   file:
