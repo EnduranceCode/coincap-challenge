@@ -22,45 +22,25 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.integration.coincap.dto;
+package com.endurancecode.ccchallenge.model.dto;
 
+import com.endurancecode.ccchallenge.model.exception.ChallengeError;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-public class CoinCapAssetDTO implements Serializable {
+public class ErrorDTO implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1L;
 
-    private String symbol;
-    private String priceUsd;
+    private String error;
+    private String message;
 
-    public CoinCapAssetDTO() {
-        super();
-    }
-
-    public CoinCapAssetDTO(String symbol, String priceUsd) {
-        this.symbol = symbol;
-        this.priceUsd = priceUsd;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getPriceUsd() {
-        return priceUsd;
-    }
-
-    public void setPriceUsd(String priceUsd) {
-        this.priceUsd = priceUsd;
+    public ErrorDTO(ChallengeError error) {
+        this.error = error.name();
+        this.message = error.getMessage();
     }
 
     @Override
@@ -73,18 +53,31 @@ public class CoinCapAssetDTO implements Serializable {
             return false;
         }
 
-        CoinCapAssetDTO that = (CoinCapAssetDTO) o;
+        ErrorDTO errorDTO = (ErrorDTO) o;
 
-        return new EqualsBuilder().append(symbol, that.symbol).isEquals();
+        return new EqualsBuilder().append(error, errorDTO.error)
+                .append(message, errorDTO.message)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(symbol).toHashCode();
+        return new HashCodeBuilder(17, 37).append(error).append(message).toHashCode();
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("symbol", symbol).append("priceUsd", priceUsd).toString();
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

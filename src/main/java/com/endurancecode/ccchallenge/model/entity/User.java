@@ -91,23 +91,25 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("id", id)
-                                        .append("nickname", nickname)
-                                        .append("wallet", wallet)
-                                        .toString();
+                .append("nickname", nickname)
+                .append("wallet", wallet)
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         User user = (User) o;
 
         return new EqualsBuilder().append(id, user.id)
-                                  .append(nickname, user.nickname)
-                                  .append(wallet, user.wallet)
-                                  .isEquals();
+                .append(nickname, user.nickname)
+                .append(wallet, user.wallet)
+                .isEquals();
     }
 
     @Override

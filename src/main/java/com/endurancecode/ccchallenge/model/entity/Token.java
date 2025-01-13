@@ -116,25 +116,29 @@ public class Token implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("symbol", symbol)
-                                        .append("price", price)
-                                        .append("addedAt", addedAt)
-                                        .append("updatedAt", updatedAt)
-                                        .toString();
+                .append("price", price)
+                .append("addedAt", addedAt)
+                .append("updatedAt", updatedAt)
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Token token = (Token) o;
 
         return new EqualsBuilder().append(symbol, token.symbol)
-                                  .append(price, token.price)
-                                  .append(addedAt, token.addedAt)
-                                  .append(updatedAt, token.updatedAt)
-                                  .isEquals();
+                .append(price, token.price)
+                .append(addedAt, token.addedAt)
+                .append(updatedAt, token.updatedAt)
+                .isEquals();
     }
 
     @Override

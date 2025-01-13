@@ -110,17 +110,21 @@ public class Asset implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("id", id)
-                                        .append("wallet", wallet)
-                                        .append("token", token)
-                                        .append("quantity", quantity)
-                                        .toString();
+                .append("wallet", wallet)
+                .append("token", token)
+                .append("quantity", quantity)
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Asset asset = (Asset) o;
 
