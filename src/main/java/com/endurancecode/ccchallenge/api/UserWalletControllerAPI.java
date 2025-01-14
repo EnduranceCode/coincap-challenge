@@ -22,12 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.api;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.endurancecode.ccchallenge.api.dto.WalletDTO;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import com.endurancecode.ccchallenge.api.response.ChallengeResponse;
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+public interface UserWalletControllerAPI {
+    /**
+     * Retrieves the wallet information for the given user with the specified wallet identifier
+     *
+     * @param userId   the ID of the user
+     * @param walletId the ID of the wallet
+     * @return a ChallengeResponse containing the WalletDTO
+     * @throws ChallengeException if there is an error retrieving the wallet
+     */
+    ChallengeResponse<WalletDTO> getWallet(Long userId, Long walletId) throws ChallengeException;
 }

@@ -22,62 +22,71 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.dto;
-
-import com.endurancecode.ccchallenge.model.exception.ChallengeError;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+package com.endurancecode.ccchallenge.api.response;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-public class ErrorDTO implements Serializable {
+@SuppressWarnings("java:S1948")
+public class ChallengeResponse<T> implements Serializable {
     @Serial
-    private static final long serialVersionUID = -1L;
+    private static final long serialVersionUID = 1L;
 
-    private String error;
+    private String status;
+    private String code;
     private String message;
+    private T data;
 
-    public ErrorDTO(ChallengeError error) {
-        this.error = error.name();
-        this.message = error.getMessage();
+    public ChallengeResponse() {
+        super();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        ErrorDTO errorDTO = (ErrorDTO) o;
-
-        return new EqualsBuilder().append(error, errorDTO.error)
-                .append(message, errorDTO.message)
-                .isEquals();
+    public ChallengeResponse(String status, String code, String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(error).append(message).toHashCode();
+    public ChallengeResponse(String status, String code, String message, T data) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
-    public String getError() {
-        return error;
+    public String getStatus() {
+        return status;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public ChallengeResponse<T> setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public ChallengeResponse<T> setCode(String code) {
+        this.code = code;
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public ChallengeResponse<T> setMessage(String message) {
         this.message = message;
+        return this;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public ChallengeResponse<T> setData(T data) {
+        this.data = data;
+        return this;
     }
 }

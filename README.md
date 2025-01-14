@@ -1,7 +1,7 @@
 # CoinCap Code Challenge
 
-![Custom Badge](https://img.shields.io/badge/java-17-orange)
 ![Custom Badge](https://img.shields.io/badge/Spring_Boot-3.4.1-green)
+![Custom Badge](https://img.shields.io/badge/java-17-orange)
 ![Custom Badge](https://img.shields.io/badge/database-MySQL-blue)
 
 
@@ -14,6 +14,7 @@
    2. [Entity Relationship Diagram](#entity-relationship-diagram)
    3. [Installation](#installation)
 4. [Usage](#usage)
+   1. [Swagger UI](#swagger-ui)
 5. [License](#license)
 
 ## Introduction
@@ -122,9 +123,31 @@ To run the **CoinCap Code Challenge** application, execute the following command
 
 The application will start and be accessible at the following URL:
 
-```sh
-localhost:8083
-```
+> http://localhost:8083
+
+As it is out of scope, the **CoinCap Code Challenge** application doesn't provide any CRUD operations
+for the User resource.
+
+The **CoinCap Code Challenge** application exposes the following endpoints:
+
++ **GET** `/v1/users/{userId}/wallets/{walletId}` : Retrieves the wallet information for the given user with the
+  specified wallet identifier;
+
+An authentication mechanism is out of scope for this project, so the **CoinCap Code Challenge** application doesn't
+provide such mechanism. Nonetheless, the application validates if the given user owns the given wallet.
+
+The application database is pre-populated with the following data:
+
++ **User** : A user with the identifier `1` and the nickname `EnduranceCode`;
++ **Wallet** : A wallet with the identifier `1` owned by the user with the identifier `1`.
++ **Asset** : Two assets, one with the symbol `BTC` and the other with the symbol `ETH`.
+
+### Swagger UI
+
+The **CoinCap Code Challenge** application provides a Swagger UI for API documentation and testing. It's available
+at the following URL:
+
+> http://localhost:8083/swagger-ui.html
 
 ## License
 

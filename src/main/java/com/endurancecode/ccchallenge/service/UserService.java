@@ -22,12 +22,17 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.service;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+public interface UserService {
+    /**
+     * Validates if the user owns the specified wallet.
+     *
+     * @param userId   the ID of the user
+     * @param walletId the ID of the wallet
+     * @throws ChallengeException if the user does not own the wallet or if any validation error occurs
+     */
+    void validateUserWalletOwnership(Long userId, Long walletId) throws ChallengeException;
 }

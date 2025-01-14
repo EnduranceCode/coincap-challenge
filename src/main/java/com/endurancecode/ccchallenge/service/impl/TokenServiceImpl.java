@@ -26,7 +26,7 @@ package com.endurancecode.ccchallenge.service.impl;
 
 import com.endurancecode.ccchallenge.integration.coincap.dto.CoinCapAssetDTO;
 import com.endurancecode.ccchallenge.integration.coincap.service.CoinCapAssetService;
-import com.endurancecode.ccchallenge.model.entity.Token;
+import com.endurancecode.ccchallenge.entity.Token;
 import com.endurancecode.ccchallenge.repository.TokenRepository;
 import com.endurancecode.ccchallenge.service.TokenService;
 import jakarta.annotation.PreDestroy;

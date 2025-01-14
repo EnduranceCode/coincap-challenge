@@ -22,12 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.api.exception.base;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+public enum ChallengeError {
+    USER_NOT_FOUND("The provided user was not found in the database"),
+    USER_DOES_NOT_OWN_WALLET("The provided user does not own the given wallet"),
+    WALLET_NOT_FOUND("The provided wallet was not found in the database");
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+    private final String message;
+
+    ChallengeError(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

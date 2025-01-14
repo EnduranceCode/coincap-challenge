@@ -22,12 +22,37 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.api.exception.base;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class ChallengeException extends Exception {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final int code;
+    private final List<ErrorDTO> errors = new ArrayList<>();
+
+    protected ChallengeException(final int code, final String message) {
+        super(message);
+        this.code = code;
+    }
+
+    protected ChallengeException(final int code, final String message, final List<ErrorDTO> errors) {
+        super(message);
+        this.code = code;
+        this.errors.addAll(errors);
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public List<ErrorDTO> getErrors() {
+        return errors;
+    }
 }

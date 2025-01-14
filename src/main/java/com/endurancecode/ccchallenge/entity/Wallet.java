@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.entity;
-
+package com.endurancecode.ccchallenge.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -41,11 +41,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity(name = "Asset")
-@Table(name = "asset")
-public class Asset implements Serializable {
+@Entity(name = "Wallet")
+@Table(name = "wallet")
+public class Wallet implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -54,25 +55,19 @@ public class Asset implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "wallet_id", nullable = false)
-    private Wallet wallet;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToOne
-    @JoinColumn(name = "token_symbol", nullable = false)
-    private Token token;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "wallet")
+    private List<Asset> assets = new ArrayList<>();
 
-    @Column(name = "quantity", nullable = false)
-    private BigDecimal quantity;
-
-    public Asset() {
+    public Wallet() {
         super();
     }
 
-    public Asset(Wallet wallet, Token token, BigDecimal quantity) {
-        this.wallet = wallet;
-        this.token = token;
-        this.quantity = quantity;
+    public Wallet(User user) {
+        this.user = user;
     }
 
     public Long getId() {
@@ -83,36 +78,26 @@ public class Asset implements Serializable {
         this.id = id;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public User getUser() {
+        return user;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Token getToken() {
-        return token;
+    public List<Asset> getAssets() {
+        return assets;
     }
 
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
+    public void setAssets(List<Asset> assets) {
+        this.assets = assets;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("id", id)
-                .append("wallet", wallet)
-                .append("token", token)
-                .append("quantity", quantity)
+                .append("user", user != null ? user.getId() : "null")
                 .toString();
     }
 
@@ -126,17 +111,13 @@ public class Asset implements Serializable {
             return false;
         }
 
-        Asset asset = (Asset) o;
+        Wallet wallet = (Wallet) o;
 
-        return new EqualsBuilder().append(id, asset.id)
-                                  .append(wallet, asset.wallet)
-                                  .append(token, asset.token)
-                                  .append(quantity, asset.quantity)
-                                  .isEquals();
+        return new EqualsBuilder().append(id, wallet.id).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(wallet).append(token).append(quantity).toHashCode();
+        return new HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 }

@@ -22,12 +22,23 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.controller.constants;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.http.HttpStatus;
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+public class ControllerConstants {
+
+    public static final String API_VERSION_1 = "/v1";
+    public static final String API_RESOURCE_USER = "/users";
+    public static final String API_RESOURCE_WALLET = "/wallets";
+
+    public static final String MSG_STATUS_OK = HttpStatus.OK.getReasonPhrase();
+    public static final String MSG_STATUS_ERROR = "ERROR";
+    public static final String MSG_CODE_OK = String.valueOf(HttpStatus.OK.value());
+    public static final String MSG_CODE_SERVER_ERROR = HttpStatus.INTERNAL_SERVER_ERROR.toString();
+    public static final String MSG_SUCCESS = "Request handled with success";
+
+    private ControllerConstants() {
+        throw new IllegalStateException("Utility Class");
+    }
 }

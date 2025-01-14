@@ -22,37 +22,42 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.exception;
+package com.endurancecode.ccchallenge.service.impl;
 
-import com.endurancecode.ccchallenge.model.dto.ErrorDTO;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import com.endurancecode.ccchallenge.mapper.WalletMapper;
+import com.endurancecode.ccchallenge.repository.WalletRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public abstract class ChallengeException extends Exception {
-    @Serial
-    private static final long serialVersionUID = -1L;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-    private final int code;
-    private final List<ErrorDTO> errors = new ArrayList<>();
+@ExtendWith(SpringExtension.class)
+class WalletServiceImplTest {
 
-    protected ChallengeException(final int code, final String message) {
-        super(message);
-        this.code = code;
-    }
+    @InjectMocks
+    WalletServiceImpl underTest;
 
-    protected ChallengeException(final int code, final String message, final List<ErrorDTO> errors) {
-        super(message);
-        this.code = code;
-        this.errors.addAll(errors);
-    }
+    @Mock
+    WalletRepository walletRepository;
 
-    public int getCode() {
-        return code;
-    }
+    @Mock
+    WalletMapper walletMapper;
 
-    public List<ErrorDTO> getErrors() {
-        return errors;
+    @Test
+    void findByIdThrowsException() {
+        when(walletRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ChallengeException.class, () -> underTest.findById(1L));
+
+        verify(walletRepository, times(1)).findById(1L);
     }
 }

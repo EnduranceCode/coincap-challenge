@@ -22,81 +22,41 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.entity;
+package com.endurancecode.ccchallenge.api.dto;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
-@Entity(name = "Wallet")
-@Table(name = "wallet")
-public class Wallet implements Serializable {
+public class WalletDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
+    private BigDecimal total;
+    private List<AssetDTO> assets;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "wallet")
-    private List<Asset> assets = new ArrayList<>();
-
-    public Wallet() {
+    public WalletDTO() {
         super();
     }
 
-    public Wallet(User user) {
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public WalletDTO(Long id, List<AssetDTO> assets) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Asset> getAssets() {
-        return assets;
-    }
-
-    public void setAssets(List<Asset> assets) {
         this.assets = assets;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("user", user).toString();
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("total", total)
+                .append("assets", assets)
+                .toString();
     }
 
     @Override
@@ -109,14 +69,40 @@ public class Wallet implements Serializable {
             return false;
         }
 
-        Wallet wallet = (Wallet) o;
+        WalletDTO walletDTO = (WalletDTO) o;
 
-        return new EqualsBuilder().append(id, wallet.id).append(user, wallet.user).isEquals();
+        return new EqualsBuilder().append(id, walletDTO.id)
+                .append(total, walletDTO.total)
+                .append(assets, walletDTO.assets)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(user).toHashCode();
+        return new HashCodeBuilder(17, 37).append(id).append(total).append(assets).toHashCode();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public List<AssetDTO> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(List<AssetDTO> assets) {
+        this.assets = assets;
+    }
 }

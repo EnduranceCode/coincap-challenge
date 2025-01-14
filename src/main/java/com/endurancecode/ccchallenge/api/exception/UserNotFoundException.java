@@ -22,19 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.exception;
+package com.endurancecode.ccchallenge.api.exception;
 
-public enum ChallengeError {
-    USER_NOT_FOUND("The provided user was not found in the database"),
-    WALLET_NOT_FOUND("The provided wallet was not found in the database");
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import org.springframework.http.HttpStatus;
 
-    private final String message;
+import java.util.Collections;
 
-    ChallengeError(String message) {
-        this.message = message;
+public class UserNotFoundException extends ChallengeException {
+    public UserNotFoundException(int code, String message) {
+        super(code, message);
     }
 
-    public String getMessage() {
-        return message;
+    public UserNotFoundException(String message, ErrorDTO error) {
+        super(HttpStatus.NOT_FOUND.value(), message, Collections.singletonList(error));
     }
 }

@@ -22,12 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.repository;
+package com.endurancecode.ccchallenge.api.exception;
 
-import com.endurancecode.ccchallenge.entity.Token;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import org.springframework.http.HttpStatus;
 
-@Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+import java.util.Collections;
+
+public class WalletNotFoundException extends ChallengeException {
+    public WalletNotFoundException(int code, String message) {
+        super(code, message);
+    }
+
+    public WalletNotFoundException(String message, ErrorDTO error) {
+        super(HttpStatus.NOT_FOUND.value(), message, Collections.singletonList(error));
+    }
 }

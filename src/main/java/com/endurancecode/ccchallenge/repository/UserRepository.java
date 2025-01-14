@@ -24,10 +24,10 @@
 
 package com.endurancecode.ccchallenge.repository;
 
-import com.endurancecode.ccchallenge.entity.Token;
+import com.endurancecode.ccchallenge.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 }

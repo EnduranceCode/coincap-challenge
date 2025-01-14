@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.entity;
+package com.endurancecode.ccchallenge.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

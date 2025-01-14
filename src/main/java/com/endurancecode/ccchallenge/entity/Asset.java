@@ -22,7 +22,8 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.model.entity;
+package com.endurancecode.ccchallenge.entity;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,6 +31,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -38,10 +41,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-@Entity(name = "User")
-@Table(name = "user")
-public class User implements Serializable {
+@Entity(name = "Asset")
+@Table(name = "asset")
+public class Asset implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -50,18 +54,25 @@ public class User implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
 
-    public User() {
+    @OneToOne
+    @JoinColumn(name = "token_symbol", nullable = false)
+    private Token token;
+
+    @Column(name = "quantity", nullable = false)
+    private BigDecimal quantity;
+
+    public Asset() {
         super();
     }
 
-    public User(String nickname) {
-        this.nickname = nickname;
+    public Asset(Wallet wallet, Token token, BigDecimal quantity) {
+        this.wallet = wallet;
+        this.token = token;
+        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -72,14 +83,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public Wallet getWallet() {
         return wallet;
     }
@@ -88,32 +91,51 @@ public class User implements Serializable {
         this.wallet = wallet;
     }
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("id", id)
-                .append("nickname", nickname)
-                .append("wallet", wallet)
+                .append("wallet", wallet != null ? wallet.getId() : "null")
+                .append("token", token)
+                .append("quantity", quantity)
                 .toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        User user = (User) o;
+        Asset asset = (Asset) o;
 
-        return new EqualsBuilder().append(id, user.id)
-                .append(nickname, user.nickname)
-                .append(wallet, user.wallet)
+        return new EqualsBuilder().append(id, asset.id)
+                .append(token, asset.token)
+                .append(quantity, asset.quantity)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(nickname).append(wallet).toHashCode();
+        return new HashCodeBuilder(17, 37).append(id).append(token).append(quantity).toHashCode();
     }
 }
