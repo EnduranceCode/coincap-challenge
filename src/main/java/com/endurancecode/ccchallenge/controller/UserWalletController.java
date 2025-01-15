@@ -25,18 +25,21 @@
 package com.endurancecode.ccchallenge.controller;
 
 import com.endurancecode.ccchallenge.api.UserWalletControllerAPI;
+import com.endurancecode.ccchallenge.api.dto.IncreaseQuantityDTO;
 import com.endurancecode.ccchallenge.api.dto.WalletDTO;
-import com.endurancecode.ccchallenge.controller.constants.ControllerConstants;
-import com.endurancecode.ccchallenge.entity.Wallet;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 import com.endurancecode.ccchallenge.api.response.ChallengeResponse;
+import com.endurancecode.ccchallenge.controller.constants.ControllerConstants;
+import com.endurancecode.ccchallenge.service.AssetService;
 import com.endurancecode.ccchallenge.service.UserService;
 import com.endurancecode.ccchallenge.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,19 +55,39 @@ public class UserWalletController implements UserWalletControllerAPI {
 
     private final UserService userService;
     private final WalletService walletService;
+    private final AssetService assetService;
 
     @Autowired
-    public UserWalletController(UserService userService, WalletService walletService) {
+    public UserWalletController(UserService userService, WalletService walletService, AssetService assetService) {
         this.userService = userService;
         this.walletService = walletService;
+        this.assetService = assetService;
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{walletId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ChallengeResponse<WalletDTO> getWallet(@PathVariable Long userId, @PathVariable Long walletId) throws ChallengeException {
+    public ChallengeResponse<WalletDTO> getWallet(@PathVariable Long userId, @PathVariable Long walletId) throws
+            ChallengeException {
 
         userService.validateUserWalletOwnership(userId, walletId);
+
+        WalletDTO data = walletService.findById(walletId);
+
+        return new ChallengeResponse<>(MSG_STATUS_OK, MSG_CODE_OK, MSG_OK, data);
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(value = "/{walletId}/assets/{symbol}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ChallengeResponse<WalletDTO> incrementAssetQuantity(
+            @PathVariable Long userId, @PathVariable Long walletId, @PathVariable String symbol,
+            @RequestBody(required = true) IncreaseQuantityDTO increaseQuantityDTO
+    ) throws ChallengeException {
+
+        userService.validateUserWalletOwnership(userId, walletId);
+
+        assetService.incrementAssetQuantity(walletId, symbol.toUpperCase(), increaseQuantityDTO.getIncreaseQuantity());
 
         WalletDTO data = walletService.findById(walletId);
 

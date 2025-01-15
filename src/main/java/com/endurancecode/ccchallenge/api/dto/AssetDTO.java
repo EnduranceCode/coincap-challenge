@@ -24,6 +24,7 @@
 
 package com.endurancecode.ccchallenge.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -31,15 +32,24 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
+@Schema(description = "Data Transfer Object representing an asset")
 public class AssetDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "Unique identifier of the asset")
     private Long id;
+
+    @Schema(description = "Symbol of the asset, e.g., BTC, ETH")
     private String symbol;
+
+    @Schema(description = "Quantity of the asset")
     private BigDecimal quantity;
+
+    @Schema(description = "Price of the asset")
     private BigDecimal price;
+
+    @Schema(description = "Total value of the asset")
     private BigDecimal value;
 
     public AssetDTO() {

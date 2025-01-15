@@ -27,6 +27,7 @@ package com.endurancecode.ccchallenge.service;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 
 public interface UserService {
+
     /**
      * Validates if the user owns the specified wallet.
      *

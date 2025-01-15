@@ -22,19 +22,27 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.service;
+package com.endurancecode.ccchallenge.repository;
 
-import com.endurancecode.ccchallenge.api.dto.WalletDTO;
-import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import com.endurancecode.ccchallenge.entity.Asset;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public interface WalletService {
+import java.util.Optional;
+
+@Repository
+public interface AssetRepository extends JpaRepository<Asset, Long> {
 
     /**
-     * Finds a wallet by its ID.
+     * Finds an Asset by the wallet ID and token symbol.
      *
-     * @param walletId the ID of the wallet to find
-     * @return the WalletDTO representing the found wallet
-     * @throws ChallengeException if the wallet is not found or if any error occurs during the operation
+     * @param walletId    the ID of the wallet
+     * @param tokenSymbol the symbol of the token
+     * @return an Optional containing the found Asset, or an empty Optional if no Asset is found
      */
-    WalletDTO findById(Long walletId) throws ChallengeException;
+    @Query("SELECT a FROM Asset a WHERE a.wallet.id = :walletId AND a.token.symbol = :tokenSymbol")
+    Optional<Asset> findByWalletIdAndTokenSymbol(
+            @Param("walletId") Long walletId, @Param("tokenSymbol") String tokenSymbol);
 }

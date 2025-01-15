@@ -24,9 +24,16 @@
 
 package com.endurancecode.ccchallenge.api;
 
+import com.endurancecode.ccchallenge.api.dto.IncreaseQuantityDTO;
 import com.endurancecode.ccchallenge.api.dto.WalletDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 import com.endurancecode.ccchallenge.api.response.ChallengeResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 public interface UserWalletControllerAPI {
     /**
@@ -37,5 +44,59 @@ public interface UserWalletControllerAPI {
      * @return a ChallengeResponse containing the WalletDTO
      * @throws ChallengeException if there is an error retrieving the wallet
      */
-    ChallengeResponse<WalletDTO> getWallet(Long userId, Long walletId) throws ChallengeException;
+    @Operation(
+            summary = "Retrieve wallet information",
+            description = "Retrieves the wallet information for the given user with the specified wallet identifier"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200", description = "Wallet found",
+                            content = @Content(
+                                    mediaType = "application/json", schema = @Schema(implementation = WalletDTO.class)
+                            )
+                    ),
+                    @ApiResponse(responseCode = "404", description = "Wallet not found", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+            }
+    )
+    ChallengeResponse<WalletDTO> getWallet(
+            @Parameter(description = "ID of the user", required = true) Long userId,
+            @Parameter(description = "ID of the wallet", required = true) Long walletId
+    ) throws ChallengeException;
+
+    /**
+     * Increments the quantity of a specified asset in the user's wallet
+     *
+     * @param userId              the ID of the user
+     * @param walletId            the ID of the wallet
+     * @param symbol              the symbol of the asset
+     * @param increaseQuantityDTO the DTO containing the quantity to be increased
+     * @return a ChallengeResponse containing the updated WalletDTO
+     * @throws ChallengeException if there is an error incrementing the asset quantity
+     */
+    @Operation(
+            summary = "Increment asset quantity",
+            description = "Increments the quantity of a specified asset in the user's wallet"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200", description = "Asset quantity incremented",
+                            content = @Content(
+                                    mediaType = "application/json", schema = @Schema(implementation = WalletDTO.class)
+                            )
+                    ),
+                    @ApiResponse(responseCode = "404", description = "Wallet or asset not found", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+            }
+    )
+    ChallengeResponse<WalletDTO> incrementAssetQuantity(
+            @Parameter(description = "ID of the user", required = true) Long userId,
+            @Parameter(description = "ID of the wallet", required = true) Long walletId,
+            @Parameter(description = "Symbol of the asset", required = true) String symbol,
+            @Parameter(
+                    description = "Data Transfer Object representing an asset", required = true
+            ) IncreaseQuantityDTO increaseQuantityDTO
+    ) throws ChallengeException;
 }

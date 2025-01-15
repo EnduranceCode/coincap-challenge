@@ -22,19 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.service;
+package com.endurancecode.ccchallenge.api.exception;
 
-import com.endurancecode.ccchallenge.api.dto.WalletDTO;
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import org.springframework.http.HttpStatus;
 
-public interface WalletService {
+import java.util.Collections;
 
-    /**
-     * Finds a wallet by its ID.
-     *
-     * @param walletId the ID of the wallet to find
-     * @return the WalletDTO representing the found wallet
-     * @throws ChallengeException if the wallet is not found or if any error occurs during the operation
-     */
-    WalletDTO findById(Long walletId) throws ChallengeException;
+public class AssetNotFoundException extends ChallengeException {
+    public AssetNotFoundException(int code, String message) {
+        super(code, message);
+    }
+
+    public AssetNotFoundException(String message, ErrorDTO error) {
+        super(HttpStatus.NOT_FOUND.value(), message, Collections.singletonList(error));
+    }
 }

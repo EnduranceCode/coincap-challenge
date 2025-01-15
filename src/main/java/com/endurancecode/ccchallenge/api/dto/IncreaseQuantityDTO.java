@@ -32,83 +32,52 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-@Schema(description = "Data Transfer Object representing a wallet")
-public class WalletDTO implements Serializable {
+
+@Schema(description = "Data Transfer Object that defines the Asset's quantity to increase")
+public class IncreaseQuantityDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "Unique identifier of the wallet")
-    private Long id;
+    @Schema(description = "Asset's quantity to increase", requiredMode = Schema.RequiredMode.REQUIRED)
+    private BigDecimal increaseQuantity;
 
-    @Schema(description = "Total value of the wallet")
-    private BigDecimal total;
-
-    @Schema(description = "List of assets in the wallet")
-    private List<AssetDTO> assets;
-
-    public WalletDTO() {
+    public IncreaseQuantityDTO() {
         super();
     }
 
-    public WalletDTO(Long id, List<AssetDTO> assets) {
-        this.id = id;
-        this.assets = assets;
+    public IncreaseQuantityDTO(BigDecimal increaseQuantity) {
+        this.increaseQuantity = increaseQuantity;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("id", id)
-                .append("total", total)
-                .append("assets", assets)
+                .append("increaseQuantity", increaseQuantity)
                 .toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
+        if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (o == null || getClass() != o.getClass()) return false;
 
-        WalletDTO walletDTO = (WalletDTO) o;
+        IncreaseQuantityDTO that = (IncreaseQuantityDTO) o;
 
-        return new EqualsBuilder().append(id, walletDTO.id)
-                .append(total, walletDTO.total)
-                .append(assets, walletDTO.assets)
+        return new EqualsBuilder().append(increaseQuantity, that.increaseQuantity)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id).append(total).append(assets).toHashCode();
+        return new HashCodeBuilder(17, 37).append(increaseQuantity).toHashCode();
     }
 
-    public Long getId() {
-        return id;
+    public BigDecimal getIncreaseQuantity() {
+        return increaseQuantity;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public List<AssetDTO> getAssets() {
-        return assets;
-    }
-
-    public void setAssets(List<AssetDTO> assets) {
-        this.assets = assets;
+    public void setIncreaseQuantity(BigDecimal increaseQuantity) {
+        this.increaseQuantity = increaseQuantity;
     }
 }

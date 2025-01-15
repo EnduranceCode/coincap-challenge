@@ -24,17 +24,20 @@
 
 package com.endurancecode.ccchallenge.service;
 
-import com.endurancecode.ccchallenge.api.dto.WalletDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 
-public interface WalletService {
+import java.math.BigDecimal;
+
+public interface AssetService {
 
     /**
-     * Finds a wallet by its ID.
+     * Increments the quantity of a specific asset in a wallet.
      *
-     * @param walletId the ID of the wallet to find
-     * @return the WalletDTO representing the found wallet
-     * @throws ChallengeException if the wallet is not found or if any error occurs during the operation
+     * @param walletId          the ID of the wallet containing the asset
+     * @param tokenSymbol       the symbol of the token to increment
+     * @param incrementQuantity the quantity to increment
+     * @throws ChallengeException if any error occurs during the operation
      */
-    WalletDTO findById(Long walletId) throws ChallengeException;
+    void incrementAssetQuantity(Long walletId, String tokenSymbol, BigDecimal incrementQuantity) throws
+            ChallengeException;
 }

@@ -25,42 +25,46 @@
 package com.endurancecode.ccchallenge.service.impl;
 
 import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
-import com.endurancecode.ccchallenge.api.dto.WalletDTO;
-import com.endurancecode.ccchallenge.api.exception.WalletNotFoundException;
+import com.endurancecode.ccchallenge.api.exception.AssetNotFoundException;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeError;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
-import com.endurancecode.ccchallenge.mapper.WalletMapper;
-import com.endurancecode.ccchallenge.repository.WalletRepository;
-import com.endurancecode.ccchallenge.service.WalletService;
+import com.endurancecode.ccchallenge.entity.Asset;
+import com.endurancecode.ccchallenge.repository.AssetRepository;
+import com.endurancecode.ccchallenge.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
 
 @Service
-public class WalletServiceImpl implements WalletService {
-    private static final Logger LOGGER = Logger.getLogger(WalletServiceImpl.class.getName());
+public class AssetServiceImp implements AssetService {
+    private static final Logger LOGGER = Logger.getLogger(AssetServiceImp.class.getName());
 
-    private final WalletRepository walletRepository;
-    private final WalletMapper walletMapper;
+    private final AssetRepository assetRepository;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository, WalletMapper walletMapper) {
-        this.walletRepository = walletRepository;
-        this.walletMapper = walletMapper;
+    public AssetServiceImp(AssetRepository assetRepository) {
+        this.assetRepository = assetRepository;
     }
 
     @Override
     @Transactional
-    public WalletDTO findById(Long walletId) throws ChallengeException {
+    public void incrementAssetQuantity(Long walletId, String tokenSymbol, BigDecimal incrementQuantity) throws
+            ChallengeException {
 
-        return walletRepository.findById(walletId).map(walletMapper::toDTO).orElseThrow(() -> {
-            String message = format("Wallet with id %s was not found in the database", walletId);
-            LOGGER.warning(message);
-            return new WalletNotFoundException(message, new ErrorDTO(ChallengeError.WALLET_NOT_FOUND));
-        });
+        Asset asset = assetRepository.findByWalletIdAndTokenSymbol(walletId, tokenSymbol)
+                .orElseThrow(() -> {
+                    String message = format("Asset with symbol %s wasn't found in the Wallet with id %d", tokenSymbol, walletId);
+                    LOGGER.warning(message);
+                    return new AssetNotFoundException(message, new ErrorDTO(ChallengeError.ASSET_NOT_FOUND));
+                });
+
+        asset.setQuantity(asset.getQuantity().add(incrementQuantity));
+        String message = format("Asset with symbol %s incremented by %s", tokenSymbol, incrementQuantity);
+        LOGGER.info(message);
     }
 }

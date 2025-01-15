@@ -14,7 +14,8 @@
    2. [Entity Relationship Diagram](#entity-relationship-diagram)
    3. [Installation](#installation)
 4. [Usage](#usage)
-   1. [Swagger UI](#swagger-ui)
+   1. [Automatic Token Price Updates](#automatic-token-price-updates)
+   2. [Swagger UI](#swagger-ui)
 5. [License](#license)
 
 ## Introduction
@@ -132,6 +133,8 @@ The **CoinCap Code Challenge** application exposes the following endpoints:
 
 + **GET** `/v1/users/{userId}/wallets/{walletId}` : Retrieves the wallet information for the given user with the
   specified wallet identifier;
++ **PUT** `/v1/users/{userId}/wallets/{walletId}/assets/{symbol}` : Increments the quantity of a specified asset
+  in the user's wallet;
 
 An authentication mechanism is out of scope for this project, so the **CoinCap Code Challenge** application doesn't
 provide such mechanism. Nonetheless, the application validates if the given user owns the given wallet.
@@ -141,6 +144,25 @@ The application database is pre-populated with the following data:
 + **User** : A user with the identifier `1` and the nickname `EnduranceCode`;
 + **Wallet** : A wallet with the identifier `1` owned by the user with the identifier `1`.
 + **Asset** : Two assets, one with the symbol `BTC` and the other with the symbol `ETH`.
+
+### Automatic Token Price Updates
+
+The **CoinCap Code Challenge** application includes a `@Scheduled` job that automatically updates token prices
+at regular intervals. This job fetches the latest prices from the [CoinCap API](https://docs.coincap.io/)
+and updates the database to reflect the current market value.
+
+The update frequency is configurable via the `application-secure.yaml` file
+located at [`src/main/resources/application.yml`](src/main/resources/application.yml). The configuration key
+is `app.scheduler.token.update-interval`, and the value specifies the interval in milliseconds between updates.
+
+The following YAML snippet shows the default configuration that has an update interval of 30 minutes:
+
+```yaml
+app:
+  scheduler:
+    token:
+      update-interval: 1800000
+```
 
 ### Swagger UI
 

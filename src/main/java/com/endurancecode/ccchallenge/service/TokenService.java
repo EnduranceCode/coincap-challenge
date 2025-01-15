@@ -24,15 +24,16 @@
 
 package com.endurancecode.ccchallenge.service;
 
-/**
- * Updates the prices of all tokens.
- * <p>
- * This method fetches the latest prices of all tokens from the CoinCap API and updates the prices in the database.
- * It uses a scheduled task to run at a fixed interval defined in the application properties.
- * <p>
- * The method retrieves all tokens from the repository and fetches all assets from the CoinCap API.
- * It then updates the prices of the tokens in batches using a fixed thread pool executor service.
- */
 public interface TokenService {
+
+    /**
+     * Updates the prices of all tokens.
+     * <p>
+     * This method fetches the latest prices of all tokens from the CoinCap API and updates the prices in the database.
+     * It uses a scheduled task to run at a fixed interval defined in the application properties.
+     * <p>
+     * The method retrieves all tokens from the repository and fetches all assets from the CoinCap API.
+     * It then updates the prices of the tokens in batches using a fixed thread pool executor service.
+     */
     public void updateTokenPrices();
 }

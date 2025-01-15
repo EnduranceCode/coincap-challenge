@@ -25,8 +25,9 @@
 package com.endurancecode.ccchallenge.api.exception.base;
 
 public enum ChallengeError {
-    USER_NOT_FOUND("The provided user was not found in the database"),
+    ASSET_NOT_FOUND("The provided asset was not found in the database"),
     USER_DOES_NOT_OWN_WALLET("The provided user does not own the given wallet"),
+    USER_NOT_FOUND("The provided user was not found in the database"),
     WALLET_NOT_FOUND("The provided wallet was not found in the database");
 
     private final String message;
