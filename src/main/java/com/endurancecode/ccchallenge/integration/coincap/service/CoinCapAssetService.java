@@ -24,11 +24,13 @@
 
 package com.endurancecode.ccchallenge.integration.coincap.service;
 
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 import com.endurancecode.ccchallenge.integration.coincap.dto.CoinCapAssetDTO;
 
 import java.util.Set;
 
 public interface CoinCapAssetService {
+
     /**
      * Fetches all assets from the CoinCap API.
      * <p>
@@ -38,4 +40,13 @@ public interface CoinCapAssetService {
      * @return a set of {@link CoinCapAssetDTO} objects representing the assets.
      */
     Set<CoinCapAssetDTO> fetchAllAssets();
+
+    /**
+     * Gets the asset with the given symbol from the CoinCapAPI.
+     * <p>
+     * @param symbol the symbol of the asset
+     * @return the asset with the given symbol
+     * @throws ChallengeException if there's an error getting the asset
+     */
+    CoinCapAssetDTO fetchAssetBySymbol(String symbol) throws ChallengeException;
 }

@@ -25,6 +25,10 @@
 package com.endurancecode.ccchallenge.integration.coincap.service.impl;
 
 
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
+import com.endurancecode.ccchallenge.api.exception.AssetNotFoundException;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeError;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 import com.endurancecode.ccchallenge.integration.coincap.dto.CoinCapAssetDTO;
 import com.endurancecode.ccchallenge.integration.coincap.dto.CoinCapAssetResponse;
 import com.endurancecode.ccchallenge.integration.coincap.service.CoinCapAssetService;
@@ -35,6 +39,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+
+import static java.lang.String.format;
 
 @Service
 public class CoinCapAssetServiceImpl implements CoinCapAssetService {
@@ -64,18 +70,37 @@ public class CoinCapAssetServiceImpl implements CoinCapAssetService {
                     .block();
 
             if (response == null || response.getData().isEmpty()) {
-                LOGGER.info("END : Fetching all assets from CoinCap API");
+                LOGGER.info("END : Fetching all assets from the CoinCap API");
                 return allAssets;
             } else {
                 allAssets.addAll(response.getData());
 
                 if (response.getData().size() < limit) {
-                    LOGGER.info("END : Fetching all assets from CoinCap API");
+                    LOGGER.info("END : Fetching all assets from the CoinCap API");
                     return allAssets;
                 }
 
                 offset.addAndGet(limit);
             }
+        }
+    }
+
+    @Override
+    public CoinCapAssetDTO fetchAssetBySymbol(String symbol) throws ChallengeException {
+
+        CoinCapAssetDTO coinCapAssetDTO = fetchAllAssets().stream()
+                .filter(asset -> asset.getSymbol().equals(symbol))
+                .findFirst()
+                .orElse(null);
+
+        if (coinCapAssetDTO != null) {
+            String message = format("Retrieved asset with symbol %s from the CoinCap API ", symbol);
+            LOGGER.info(message);
+            return coinCapAssetDTO;
+        } else {
+            String message = format("Asset with symbol %s wasn't found in the CoinCap API", symbol);
+            LOGGER.warning(message);
+            throw new AssetNotFoundException(message, new ErrorDTO(ChallengeError.ASSET_NOT_FOUND_API));
         }
     }
 }

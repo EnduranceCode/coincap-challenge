@@ -38,7 +38,7 @@ public class IncreaseQuantityDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "Asset's quantity to increase", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "Asset's quantity to increase", requiredMode = Schema.RequiredMode.REQUIRED, example = "3.0")
     private BigDecimal increaseQuantity;
 
     public IncreaseQuantityDTO() {

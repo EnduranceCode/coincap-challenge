@@ -25,6 +25,7 @@
 package com.endurancecode.ccchallenge.controller;
 
 import com.endurancecode.ccchallenge.api.UserWalletControllerAPI;
+import com.endurancecode.ccchallenge.api.dto.AssetDTO;
 import com.endurancecode.ccchallenge.api.dto.IncreaseQuantityDTO;
 import com.endurancecode.ccchallenge.api.dto.WalletDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
@@ -39,6 +40,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -71,6 +73,23 @@ public class UserWalletController implements UserWalletControllerAPI {
             ChallengeException {
 
         userService.validateUserWalletOwnership(userId, walletId);
+
+        WalletDTO data = walletService.findById(walletId);
+
+        return new ChallengeResponse<>(MSG_STATUS_OK, MSG_CODE_OK, MSG_OK, data);
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(value = "/{walletId}/assets", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ChallengeResponse<WalletDTO> addAsset(
+            @PathVariable Long userId, @PathVariable Long walletId,
+            @RequestBody(required = true) AssetDTO assetDTO
+    ) throws ChallengeException {
+
+        userService.validateUserWalletOwnership(userId, walletId);
+
+        assetService.save(walletId, assetDTO);
 
         WalletDTO data = walletService.findById(walletId);
 

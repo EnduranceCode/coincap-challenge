@@ -22,24 +22,20 @@
  * SOFTWARE.
  */
 
-package com.endurancecode.ccchallenge.api.exception.base;
+package com.endurancecode.ccchallenge.api.exception;
 
-public enum ChallengeError {
-    ASSET_ALREADY_EXISTS("The provided asset already exists in the user's"),
-    ASSET_NOT_FOUND_API("The provided asset was not found in the CoinCap API"),
-    ASSET_NOT_FOUND_DB("The provided asset was not found in the database"),
-    USER_DOES_NOT_OWN_WALLET("The provided user does not own the given wallet"),
-    USER_NOT_FOUND("The provided user was not found in the database"),
-    WALLET_NOT_FOUND("The provided wallet was not found in the database"),
-    PERSISTENCE_ERROR("An error occurred while trying to persist the entity");
+import com.endurancecode.ccchallenge.api.dto.ErrorDTO;
+import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
+import org.springframework.http.HttpStatus;
 
-    private final String message;
+import java.util.Collections;
 
-    ChallengeError(String message) {
-        this.message = message;
+public class PersistenceException extends ChallengeException {
+    public PersistenceException(int code, String message) {
+        super(code, message);
     }
 
-    public String getMessage() {
-        return message;
+    public PersistenceException(String message, ErrorDTO error) {
+        super(HttpStatus.BAD_REQUEST.value(), message, Collections.singletonList(error));
     }
 }

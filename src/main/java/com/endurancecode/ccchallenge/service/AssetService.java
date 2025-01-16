@@ -24,6 +24,7 @@
 
 package com.endurancecode.ccchallenge.service;
 
+import com.endurancecode.ccchallenge.api.dto.AssetDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
 
 import java.math.BigDecimal;
@@ -31,13 +32,22 @@ import java.math.BigDecimal;
 public interface AssetService {
 
     /**
+     * Adds an asset to the user's wallet
+     *
+     * @param walletId the ID of the wallet
+     * @param assetDTO the DTO containing the asset information
+     * @throws ChallengeException if there is an error adding the asset
+     */
+    void save(Long walletId, AssetDTO assetDTO) throws ChallengeException;
+
+    /**
      * Increments the quantity of a specific asset in a wallet.
      *
      * @param walletId          the ID of the wallet containing the asset
-     * @param tokenSymbol       the symbol of the token to increment
+     * @param symbol            the symbol of the token to increment
      * @param incrementQuantity the quantity to increment
      * @throws ChallengeException if any error occurs during the operation
      */
-    void incrementAssetQuantity(Long walletId, String tokenSymbol, BigDecimal incrementQuantity) throws
+    void incrementAssetQuantity(Long walletId, String symbol, BigDecimal incrementQuantity) throws
             ChallengeException;
 }

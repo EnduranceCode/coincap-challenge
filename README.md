@@ -133,6 +133,7 @@ The **CoinCap Code Challenge** application exposes the following endpoints:
 
 + **GET** `/v1/users/{userId}/wallets/{walletId}` : Retrieves the wallet information for the given user with the
   specified wallet identifier;
++ **POST** `/v1/users/{userId}/wallets/{walletId}/assets` : Inserts a new asset into the user's wallet;
 + **PUT** `/v1/users/{userId}/wallets/{walletId}/assets/{symbol}` : Increments the quantity of a specified asset
   in the user's wallet;
 

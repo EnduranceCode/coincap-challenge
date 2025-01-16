@@ -24,6 +24,7 @@
 
 package com.endurancecode.ccchallenge.api;
 
+import com.endurancecode.ccchallenge.api.dto.AssetDTO;
 import com.endurancecode.ccchallenge.api.dto.IncreaseQuantityDTO;
 import com.endurancecode.ccchallenge.api.dto.WalletDTO;
 import com.endurancecode.ccchallenge.api.exception.base.ChallengeException;
@@ -31,11 +32,17 @@ import com.endurancecode.ccchallenge.api.response.ChallengeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "User's Wallet Controller", description = "Operations related to user's wallet")
 public interface UserWalletControllerAPI {
+
     /**
      * Retrieves the wallet information for the given user with the specified wallet identifier
      *
@@ -66,6 +73,47 @@ public interface UserWalletControllerAPI {
     ) throws ChallengeException;
 
     /**
+     * Adds an asset to the user's wallet
+     *
+     * @param userId   the ID of the user
+     * @param walletId the ID of the wallet
+     * @param assetDTO the DTO containing the asset information
+     * @return a ChallengeResponse containing the updated WalletDTO
+     * @throws ChallengeException if there is an error adding the asset
+     */
+    @Operation(
+            summary = "Add asset to wallet",
+            description = "Adds an asset to the user's wallet"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200", description = "Asset added",
+                            content = @Content(
+                                    mediaType = "application/json", schema = @Schema(implementation = WalletDTO.class)
+                            )
+                    ),
+                    @ApiResponse(responseCode = "404", description = "Wallet not found", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+            }
+    )
+    ChallengeResponse<WalletDTO> addAsset(
+            @PathVariable @Parameter(description = "ID of the user", required = true) Long userId,
+            @PathVariable @Parameter(description = "ID of the wallet", required = true) Long walletId,
+            @RequestBody @Parameter(
+                    description = "Data Transfer Object representing an asset", required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AssetDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Example payload",
+                                    value = "{\"symbol\": \"BTC\", \"quantity\": 1.0, \"price\": 50000.0 }"
+                            )
+                    )
+            ) AssetDTO assetDTO
+    ) throws ChallengeException;
+
+    /**
      * Increments the quantity of a specified asset in the user's wallet
      *
      * @param userId              the ID of the user
@@ -92,11 +140,19 @@ public interface UserWalletControllerAPI {
             }
     )
     ChallengeResponse<WalletDTO> incrementAssetQuantity(
-            @Parameter(description = "ID of the user", required = true) Long userId,
-            @Parameter(description = "ID of the wallet", required = true) Long walletId,
-            @Parameter(description = "Symbol of the asset", required = true) String symbol,
-            @Parameter(
-                    description = "Data Transfer Object representing an asset", required = true
+            @PathVariable @Parameter(description = "ID of the user", required = true) Long userId,
+            @PathVariable @Parameter(description = "ID of the wallet", required = true) Long walletId,
+            @PathVariable @Parameter(description = "Symbol of the asset", required = true) String symbol,
+            @RequestBody @Parameter(
+                    description = "Data Transfer Object that defines the Asset's quantity to increase", required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = IncreaseQuantityDTO.class),
+                            examples = @ExampleObject(
+                                    name = "Example payload",
+                                    value = "{\"increaseQuantity\": 3.0 }"
+                            )
+                    )
             ) IncreaseQuantityDTO increaseQuantityDTO
     ) throws ChallengeException;
 }

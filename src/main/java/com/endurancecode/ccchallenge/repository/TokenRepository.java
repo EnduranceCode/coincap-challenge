@@ -28,6 +28,16 @@ import com.endurancecode.ccchallenge.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
+
+    /**
+     * Finds a Token by the by token symbol.
+     *
+     * @param symbol the symbol of the token
+     * @return the Token with the given symbol
+     */
+    Optional<Token> findBySymbol(String symbol);
 }

@@ -33,3 +33,7 @@ must respect the following naming convention (which is compatible with the
    for the CoinCap Challenge application;
 2. [V000.000.001.002__create-indexes.sql](./migration/dml/V000.000.001.002__insert-data.sql) : Insert data
    into the CoinCap Challenge application tables.
+3. [V000.000.001.003__alter-table-token.sql](./migration/ddl/V000.000.001.003__alter-table-token.sql) : Fix the
+   constraints for the tables asset and token;
+4. [V000.000.001.004__alter-table-token.sql](./migration/dml/V000.000.001.004__update-table-token.sql) : Insert data
+   into the CoinCap Challenge application tables for a second user;

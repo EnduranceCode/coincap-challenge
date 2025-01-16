@@ -40,10 +40,14 @@ public class AssetDTO implements Serializable {
     @Schema(description = "Unique identifier of the asset")
     private Long id;
 
-    @Schema(description = "Symbol of the asset, e.g., BTC, ETH")
+    @Schema(
+            description = "Symbol of the asset, e.g., BTC, ETH",
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            example = "BTC"
+    )
     private String symbol;
 
-    @Schema(description = "Quantity of the asset")
+    @Schema(description = "Quantity of the asset", requiredMode = Schema.RequiredMode.REQUIRED, example = "3.0")
     private BigDecimal quantity;
 
     @Schema(description = "Price of the asset")

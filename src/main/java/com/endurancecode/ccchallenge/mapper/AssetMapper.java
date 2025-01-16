@@ -65,4 +65,16 @@ public class AssetMapper {
 
         return assetDTO;
     }
+
+    /**
+     * Converts an AssetDTO to an Asset entity.
+     *
+     * @param assetDTO the AssetDTO to convert
+     * @return the converted Asset entity
+     */
+    public Asset toEntity(AssetDTO assetDTO) {
+        Asset asset = new Asset();
+        asset.setQuantity(assetDTO.getQuantity());
+        return asset;
+    }
 }
