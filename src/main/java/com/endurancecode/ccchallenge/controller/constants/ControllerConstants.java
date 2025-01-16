@@ -31,6 +31,7 @@ public class ControllerConstants {
     public static final String API_VERSION_1 = "/v1";
     public static final String API_RESOURCE_USER = "/users";
     public static final String API_RESOURCE_WALLET = "/wallets";
+    public static final String API_RESOURCE_WALLET_EVALUATION = "/wallet-evaluation";
 
     public static final String MSG_STATUS_OK = HttpStatus.OK.getReasonPhrase();
     public static final String MSG_STATUS_ERROR = "ERROR";

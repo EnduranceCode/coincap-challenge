@@ -33,47 +33,48 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Schema(description = "Data Transfer Object representing an asset")
-public class AssetDTO implements Serializable {
+@Schema(description = "Data Transfer Object representing an asset of the wallet to be evaluated")
+public class WalletEvaluationInputDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    @Schema(description = "Unique identifier of the asset")
-    private Long id;
 
     @Schema(
             description = "Symbol of the asset, e.g., BTC, ETH",
             requiredMode = Schema.RequiredMode.REQUIRED,
             example = "BTC"
     )
-    private String symbol;
+    String symbol;
 
-    @Schema(description = "Quantity of the asset", requiredMode = Schema.RequiredMode.REQUIRED, example = "3.0")
-    private BigDecimal quantity;
+    @Schema(
+            description = "Quantity of the token in the wallet",
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            example = "0.12345"
+    )
+    BigDecimal quantity;
 
-    @Schema(description = "Price of the asset")
-    private BigDecimal price;
+    @Schema(
+            description = "Average buy value of the token",
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            example = "37870.5058"
+    )
+    BigDecimal averageBuyValue;
 
-    @Schema(description = "Total value of the asset")
-    private BigDecimal value;
-
-    public AssetDTO() {
+    public WalletEvaluationInputDTO() {
         super();
     }
 
-    public AssetDTO(String symbol, BigDecimal quantity) {
+    public WalletEvaluationInputDTO(String symbol, BigDecimal quantity, BigDecimal averageBuyValue) {
         this.symbol = symbol;
         this.quantity = quantity;
+        this.averageBuyValue = averageBuyValue;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("id", id)
                 .append("symbol", symbol)
                 .append("quantity", quantity)
-                .append("price", price)
-                .append("value", value)
+                .append("averageBuyValue", averageBuyValue)
                 .toString();
     }
 
@@ -87,32 +88,17 @@ public class AssetDTO implements Serializable {
             return false;
         }
 
-        AssetDTO assetDTO = (AssetDTO) o;
+        WalletEvaluationInputDTO that = (WalletEvaluationInputDTO) o;
 
-        return new EqualsBuilder().append(id, assetDTO.id)
-                .append(symbol, assetDTO.symbol)
-                .append(quantity, assetDTO.quantity)
-                .append(price, assetDTO.price)
-                .append(value, assetDTO.value)
+        return new EqualsBuilder().append(symbol, that.symbol)
+                .append(quantity, that.quantity)
+                .append(averageBuyValue, that.averageBuyValue)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(id)
-                .append(symbol)
-                .append(quantity)
-                .append(price)
-                .append(value)
-                .toHashCode();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return new HashCodeBuilder(17, 37).append(symbol).append(quantity).append(averageBuyValue).toHashCode();
     }
 
     public String getSymbol() {
@@ -131,19 +117,11 @@ public class AssetDTO implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getAverageBuyValue() {
+        return averageBuyValue;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setAverageBuyValue(BigDecimal averageBuyValue) {
+        this.averageBuyValue = averageBuyValue;
     }
 }

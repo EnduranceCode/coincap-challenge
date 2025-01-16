@@ -136,6 +136,8 @@ The **CoinCap Code Challenge** application exposes the following endpoints:
 + **POST** `/v1/users/{userId}/wallets/{walletId}/assets` : Inserts a new asset into the user's wallet;
 + **PUT** `/v1/users/{userId}/wallets/{walletId}/assets/{symbol}` : Increments the quantity of a specified asset
   in the user's wallet;
++ **POST** `/v1//v1/wallet-evaluation/` : Evaluates a wallet's performance based on a list of input tokens
+  and their average buy values
 
 An authentication mechanism is out of scope for this project, so the **CoinCap Code Challenge** application doesn't
 provide such mechanism. Nonetheless, the application validates if the given user owns the given wallet.
@@ -143,8 +145,11 @@ provide such mechanism. Nonetheless, the application validates if the given user
 The application database is pre-populated with the following data:
 
 + **User** : A user with the identifier `1` and the nickname `EnduranceCode`;
++ **User** : A user with the identifier `2` and the nickname `EnduranceTrio`;
 + **Wallet** : A wallet with the identifier `1` owned by the user with the identifier `1`.
-+ **Asset** : Two assets, one with the symbol `BTC` and the other with the symbol `ETH`.
++ **Wallet** : A wallet with the identifier `2` owned by the user with the identifier `2`.
++ **Asset** : Two assets, one with the symbol `BTC` and the other with the symbol `ETH` belonging to wallet with id `1`.
++ **Asset** : Two assets, one with the symbol `BTC` and the other with the symbol `ETH` belonging to wallet with id `2`.
 
 ### Automatic Token Price Updates
 

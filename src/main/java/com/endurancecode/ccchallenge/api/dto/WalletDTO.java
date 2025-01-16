@@ -33,6 +33,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+
 @Schema(description = "Data Transfer Object representing a wallet")
 public class WalletDTO implements Serializable {
     @Serial
