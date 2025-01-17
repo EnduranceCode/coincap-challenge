@@ -36,7 +36,7 @@
 
     <groupId>com.endurancecode</groupId>
     <artifactId>coincap-challenge</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9.0</version>
 
     <name>CoinCap Code Challenge</name>
     <description>Code challenge developed with Spring Boot that uses CoinCap API</description>
